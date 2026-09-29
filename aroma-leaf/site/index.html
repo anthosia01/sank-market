@@ -83,6 +83,26 @@
   .chip { border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 9px 16px; font: 600 14px/1 var(--body); cursor: pointer }
   .chip[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: var(--ivory) }
 
+  /* Culture : bande tissée inspirée du Faso Dan Fani, fond terre de latérite */
+  .culture { background: #6e2a17; color: #fbeee0; position: relative }
+  .weave { height: 18px; background: repeating-linear-gradient(90deg, #1f2f6b 0 26px, #fbeee0 26px 30px, #c0392b 30px 52px, #e0a526 52px 60px, #1f6b4c 60px 82px, #fbeee0 82px 86px) }
+  .culture .head .eyebrow { color: #f0c46a }
+  .culture .head p { color: rgba(251,238,224,.85) }
+  .ccards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px }
+  @media (max-width: 880px) { .ccards { grid-template-columns: 1fr } }
+  .ccard { background: rgba(0,0,0,.18); border: 1px solid rgba(240,196,106,.35); border-radius: var(--r); padding: 26px; display: flex; flex-direction: column; gap: 12px; min-width: 0 }
+  .ccard h3 { font-size: 30px; color: #fbeee0 }
+  .ccard p { margin: 0; color: rgba(251,238,224,.88); font-size: 16px }
+  .ccard .k { font-size: 12px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: #f0c46a }
+  .ccard a.more { margin-top: auto; align-self: flex-start; color: #f0c46a; font-weight: 700; font-size: 15px; text-decoration: none; border-bottom: 1.5px solid rgba(240,196,106,.5); padding-bottom: 2px }
+  .rounds { display: grid; gap: 8px; margin: 4px 0 }
+  .rounds div { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; font-size: 15.5px }
+  .rounds b { font-family: var(--display); font-weight: 400; font-size: 26px; color: #f0c46a; line-height: 1 }
+  .quote { margin-top: 34px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; border-top: 1px solid rgba(240,196,106,.35); padding-top: 30px }
+  @media (max-width: 720px) { .quote { grid-template-columns: 1fr } }
+  .quote p { margin: 0; font-family: var(--display); font-size: clamp(24px, 3vw, 34px); line-height: 1.2; text-wrap: balance }
+  .quote small { display: block; font-family: var(--body); font-size: 14px; margin-top: 10px; opacity: .8 }
+
   /* Product grid */
   .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px }
   @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
@@ -167,7 +187,7 @@
   <div class="wrap">
     <a class="logo" href="#accueil" id="logo"></a>
     <nav class="nav" aria-label="Menu principal">
-      <a href="#thes">Nos thés</a><a href="#carte">La carte</a><a href="#commander">Commander</a><a href="#contact">Contact</a>
+      <a href="#culture">Culture</a><a href="#thes">Nos thés</a><a href="#carte">La carte</a><a href="#commander">Commander</a><a href="#contact">Contact</a>
       <a class="btn btn-gold" id="topWa" target="_blank" rel="noopener"></a>
     </nav>
   </div>
@@ -192,6 +212,52 @@
       </div>
       <div class="trio" aria-hidden="true" id="trio"></div>
     </div>
+  </section>
+
+  <section class="culture" id="culture">
+    <div class="weave" aria-hidden="true"></div>
+    <div class="wrap block" style="padding-block:84px">
+      <div class="head">
+        <div>
+          <div class="eyebrow">Le thé, à la burkinabè</div>
+          <h2>Au Faso, le thé se partage</h2>
+          <p>Au grin, entre amis, en famille ou pour accueillir un visiteur, le thé est un moment de causerie et d'hospitalité. Aroma-Leaf apporte les grands thés du Kenya dans cette tradition.</p>
+        </div>
+      </div>
+      <div class="ccards">
+        <article class="ccard">
+          <span class="k">Le grin</span>
+          <h3>Les trois services</h3>
+          <p>Au grin, on prend le temps : le thé se prépare lentement, en trois services, pendant qu'on cause.</p>
+          <div class="rounds">
+            <div><b>1</b><span>Le premier, fort et amer, <em>comme la vie</em>.</span></div>
+            <div><b>2</b><span>Le deuxième, plus doux, <em>comme l'amitié</em>.</span></div>
+            <div><b>3</b><span>Le troisième, sucré, <em>comme l'amour</em>.</span></div>
+          </div>
+          <p>Pour vos causeries, essayez le thé vert menthe : frais, exaltant et apaisant.</p>
+          <a class="more" href="#the-mint">Voir le thé vert menthe</a>
+        </article>
+        <article class="ccard">
+          <span class="k">Les saveurs d'ici</span>
+          <h3>Bissap et gingembre</h3>
+          <p>Le bissap rouge et le jus de gingembre, le gnamakoudji, font partie de toutes les fêtes. Vous retrouvez ces saveurs en infusion, prêtes en cinq minutes : 100 % hibiscus, ou gingembre et citron.</p>
+          <p>Elles se boivent chaudes le matin, ou glacées quand il fait chaud.</p>
+          <a class="more" href="#the-hibiscus">Voir l'hibiscus et le gingembre</a>
+        </article>
+        <article class="ccard">
+          <span class="k">L'hospitalité</span>
+          <h3>Offrir le thé</h3>
+          <p>Accueillir, c'est d'abord offrir à boire. Pour un mariage, un baptême, une fête de famille, un séminaire ou un cadeau d'entreprise, nous préparons des lots de thés sur mesure.</p>
+          <p>Dites-nous le nombre d'invités, nous vous proposons un assortiment et un prix.</p>
+          <a class="more" id="eventWa" target="_blank" rel="noopener">Demander un devis sur WhatsApp</a>
+        </article>
+      </div>
+      <div class="quote">
+        <p>Du Kenya au Faso, une même idée : un bon thé, ça se partage.<small>Aroma-Leaf · Ouaga 2000</small></p>
+        <a class="btn btn-gold" href="#thes">Choisir mon thé</a>
+      </div>
+    </div>
+    <div class="weave" aria-hidden="true"></div>
   </section>
 
   <section class="block" id="thes">
@@ -265,6 +331,7 @@
   $("heroWa").innerHTML = `${WA}<span>Écrire sur WhatsApp</span>`; $("heroWa").href = waLink();
   $("phones").innerHTML = CONTACT.phones.join("<br>");
   $("fb").href = CONTACT.facebookUrl;
+  $("eventWa").href = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Bonjour Aroma-Leaf, je souhaite un devis de thés pour un événement (type d'événement, date, nombre d'invités) :")}`;
 
   const pick = id => PRODUCTS.find(p => p.id === id);
   $("trio").innerHTML = `<div class="ring"></div>` + [["d1", "hibiscus"], ["d2", "mint"], ["d3", "pure-kenya"]]
