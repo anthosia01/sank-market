@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Questionnaire Aroma-Leaf</title>
+<link rel="stylesheet" href="../site/fonts/fonts.css">
+<style>
+  /* Fiche A4 imprimable : fond blanc (économie d'encre), accents vert Aroma-Leaf, cases à cocher et lignes d'écriture */
+  @page { size: A4; margin: 14mm 15mm 16mm }
+  :root { --green:#0f3328; --gold:#b08a2e; --ink:#1d2a24; --muted:#5b6a61; --line:#b9c2bc;
+          --display:"Gloock", Georgia, serif; --body:"Figtree", Arial, sans-serif }
+  * { box-sizing:border-box; margin:0 }
+  body { font:400 10.5pt/1.45 var(--body); color:var(--ink); -webkit-print-color-adjust:exact; print-color-adjust:exact }
+  header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--green); padding-bottom:8px; margin-bottom:10px }
+  .brand { display:flex; align-items:center; gap:10px }
+  .brand svg { width:42px; height:42px }
+  .brand b { font-family:var(--display); font-weight:400; font-size:20pt; color:var(--green); line-height:1; display:block }
+  .brand small { font-size:7.5pt; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--gold) }
+  .who { font-size:9.5pt; text-align:right; line-height:2 }
+  .who span { display:inline-block; width:52mm; border-bottom:1px solid var(--line) }
+  h1 { font-family:var(--display); font-weight:400; font-size:21pt; color:var(--green); margin:4px 0 4px }
+  .intro { color:var(--muted); font-size:10pt; margin-bottom:6px }
+  .intro b { color:var(--ink) }
+  .legend { display:flex; gap:18px; font-size:9pt; color:var(--muted); margin-bottom:4px }
+  h2 { font-family:var(--display); font-weight:400; font-size:14pt; color:var(--green); margin:14px 0 6px; display:flex; align-items:baseline; gap:8px; break-after:avoid }
+  h2 i { font-style:normal; font-family:var(--body); font-weight:800; font-size:8pt; letter-spacing:.2em; color:#fff; background:var(--green); border-radius:3px; padding:2px 6px }
+  .box { display:inline-block; width:11px; height:11px; border:1.4px solid var(--ink); border-radius:2px; vertical-align:-1px; margin-right:4px }
+  table { width:100%; border-collapse:collapse; font-size:9.5pt; break-inside:auto }
+  th { text-align:left; font-size:7.5pt; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700; padding:4px 6px; border-bottom:1.5px solid var(--green) }
+  td { padding:6px 6px; border-bottom:1px solid #dde3df; vertical-align:middle }
+  tr { break-inside:avoid }
+  td.dot i { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px }
+  td.now { font-weight:700; white-space:nowrap }
+  td.ok { white-space:nowrap }
+  td.new { width:34mm; border-bottom:1px solid var(--line) }
+  .q { padding:5px 0; break-inside:avoid }
+  .q > b { font-weight:700 }
+  .opts { display:flex; flex-wrap:wrap; gap:4px 18px; margin-top:3px }
+  .write { border-bottom:1px solid var(--line); height:7.5mm }
+  .write.half { display:inline-block; width:60mm; height:6mm; vertical-align:bottom }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:0 10mm }
+  .sign { margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:12mm; font-size:9.5pt; break-inside:avoid }
+  .sign div { border-top:1px solid var(--ink); padding-top:4px; color:var(--muted); margin-top:16mm }
+  footer.note { margin-top:10px; font-size:8.5pt; color:var(--muted); border-top:1px solid #dde3df; padding-top:6px }
+  .pb { break-before:page }
+</style>
+</head>
+<body>
+<div id="doc"></div>
+<script src="../site/data.js"></script>
+<script>
+  const { PRODUCTS, CONTACT, fcfa, logoMark } = AL;
+  const B = '<span class="box"></span>';
+  const opts = a => `<div class="opts">${a.map(x => `<span>${B}${x}</span>`).join("")}</div>`;
+  const lines = n => Array.from({ length: n }, () => '<div class="write"></div>').join("");
+  const q = (t, body) => `<div class="q"><b>${t}</b>${body}</div>`;
+
+  const rows = PRODUCTS.flatMap(p => p.offers.map((o, i) => `
+    <tr><td class="dot">${i === 0 ? `<i style="background:${p.color}"></i>${p.short}` : ""}</td>
+      <td>${o.label}</td><td class="now">${o.price == null ? "<em style='color:#9e0f2c'>À compléter</em>" : fcfa(o.price)}</td>
+      <td class="ok">${B}Juste &nbsp; ${B}À changer</td><td class="new"></td></tr>`)).join("");
+
+  document.getElementById("doc").innerHTML = `
+  <header>
+    <div class="brand">${logoMark("#0f3328")}<div><b>Aroma-Leaf</b><small>from Kenya</small></div></div>
+    <div class="who">Nom : <span></span><br>Date : <span></span></div>
+  </header>
+  <h1>Validation du site, des flyers et du catalogue</h1>
+  <p class="intro">Merci de cocher et de compléter cette fiche. Vos réponses servent à finaliser <b>le site aroma-leaf.vercel.app</b>, <b>les 9 flyers</b> et <b>le catalogue PDF</b>. S'il manque de la place, écrivez au dos.</p>
+  <div class="legend"><span>${B}= cochez votre réponse</span><span>_____ = écrivez</span></div>
+
+  <h2><i>1</i> Les prix</h2>
+  <table><thead><tr><th>Thé</th><th>Format</th><th>Prix affiché</th><th>Le prix est…</th><th>Nouveau prix / format</th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="grid2" style="margin-top:6px">
+    ${q("Grands formats de thé noir (boîtes de plusieurs tailles) : formats et prix", lines(2))}
+    ${q("Prix pour les revendeurs / la vente en gros", lines(2))}
+  </div>
+  ${q("Remarques sur les prix ou les produits", lines(5))}
+
+  <h2 class="pb"><i>2</i> Les produits</h2>
+  ${q("Manque-t-il des thés dans la liste ?", opts(["Non, la liste est complète", "Oui, lesquels :"]) + lines(2))}
+  ${q("Vendez-vous aussi des cafés (Dormans, Melvins…) ?", opts(["Non", "Oui : noms, formats et prix ci-dessous"]) + lines(2))}
+  ${q("Sur le site et les flyers, vous préférez :", opts(["Les illustrations actuelles", "Les vraies photos des boîtes (je fournis des photos nettes)", "Les deux"]))}
+
+  <h2><i>3</i> Commande, livraison et paiement</h2>
+  ${q("Numéro qui reçoit les commandes WhatsApp :", opts(["+226 76 76 61 56", "+226 70 72 89 94", "Les deux", "Autre : <span class='write half'></span>"]))}
+  ${q("Faites-vous la livraison ?", opts(["Non, retrait uniquement", "Oui, dans Ouaga", "Oui, aussi hors de Ouaga"]))}
+  ${q("Si livraison : zones, prix et délais", lines(2))}
+  ${q("Adresse exacte du retrait à Ouaga 2000 (repère connu) et horaires", lines(2))}
+  ${q("Moyens de paiement acceptés :", opts(["Espèces", "Orange Money", "Moov Money", "Wave", "Autre : <span class='write half'></span>"]))}
+
+  <h2><i>4</i> Contacts et réseaux</h2>
+  <div class="grid2">
+    ${q("Lien de la page Facebook", lines(1))}
+    ${q("Instagram / TikTok", lines(1))}
+    ${q("Adresse e-mail", lines(1))}
+    ${q("Autre contact", lines(1))}
+  </div>
+
+  <h2 class="pb"><i>5</i> Validation du design</h2>
+  ${q("Le logo redessiné :", opts(["Je valide le nouveau logo", "Je garde l'ancien logo ovale doré", "À modifier :"]) + lines(1))}
+  ${q("Les couleurs et les flyers :", opts(["Je valide", "À modifier :"]) + lines(2))}
+  ${q("L'espace culture du site (le grin, les trois services du thé, bissap et gingembre) :", opts(["Je valide", "À modifier :"]) + lines(2))}
+  ${q("Pour les événements (mariages, baptêmes, entreprises), quels lots ou coffrets proposez-vous ?", lines(3))}
+
+  <h2><i>6</i> Pour aller plus loin (facultatif)</h2>
+  ${q("Cochez ce qui vous intéresse :", opts(["Un nom de domaine à vous (ex. aromaleaf.com)", "Des flyers au format statut WhatsApp", "Des textes de publications Facebook prêts à poster", "Autre : <span class='write half'></span>"]))}
+  ${q("Autres remarques", lines(4))}
+
+  <div class="sign"><div>Signature</div><div>Date de validation</div></div>
+  <footer class="note">Aroma-Leaf · ${CONTACT.phones.join(" · ")} · Ouaga 2000 · Facebook : ${CONTACT.facebook}</footer>`;
+</script>
+</body>
+</html>
