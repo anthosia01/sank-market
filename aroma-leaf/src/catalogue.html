@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Catalogue Aroma-Leaf</title>
+<link rel="stylesheet" href="../site/fonts/fonts.css">
+<style>
+  /* Catalogue PDF : pages 1080×1350, couverture vert profond, carte des prix ivoire, puis un visuel par thé */
+  @page { size: 1080px 1350px; margin: 0 }
+  :root { --green:#0f3328; --gold:#c9a24a; --gold-2:#e6c77a; --ivory:#f7f1e4; --ink:#1d2a24; --muted:#5b6a61; --line:#e3d9c3;
+          --display:"Gloock", Georgia, serif; --body:"Figtree", Arial, sans-serif }
+  * { box-sizing:border-box; margin:0 }
+  body { font-family:var(--body); -webkit-print-color-adjust:exact; print-color-adjust:exact }
+  .page { width:1080px; height:1350px; page-break-after:always; overflow:hidden; position:relative }
+  .cover { background:var(--green); color:var(--ivory); padding:90px; display:flex; flex-direction:column }
+  .cover::before { content:""; position:absolute; inset:0; background:radial-gradient(700px 600px at 80% 25%, rgba(201,162,74,.2), transparent 60%) }
+  .cover > * { position:relative }
+  .mark { width:150px; height:150px }
+  .cover .eyebrow { margin-top:60px; font-size:20px; font-weight:700; letter-spacing:.34em; text-transform:uppercase; color:var(--gold-2) }
+  .cover h1 { font-family:var(--display); font-weight:400; font-size:150px; line-height:.95; margin:26px 0 }
+  .cover p { font-size:30px; line-height:1.4; max-width:22em; opacity:.9 }
+  .discs { display:flex; gap:24px; margin-top:auto }
+  .discs div { width:200px; height:200px; border-radius:50%; display:grid; place-items:center; box-shadow:0 20px 40px rgba(0,0,0,.35) }
+  .discs svg { width:80% }
+  .cover .contact { margin-top:60px; padding-top:30px; border-top:2px solid rgba(201,162,74,.5); display:flex; justify-content:space-between; font-size:26px; font-weight:600 }
+  .cover .contact span { color:var(--gold-2) }
+  .carte { background:var(--ivory); color:var(--ink); padding:90px }
+  .carte .eyebrow { font-size:18px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:#8a6a1f }
+  .carte h2 { font-family:var(--display); font-weight:400; font-size:96px; margin:14px 0 40px }
+  table { width:100%; border-collapse:collapse; font-size:25px; font-variant-numeric:tabular-nums }
+  td { padding:17px 0; border-top:1.5px solid var(--line) }
+  td:last-child { text-align:right; font-family:var(--display); font-size:30px; white-space:nowrap }
+  td .dot { display:inline-block; width:18px; height:18px; border-radius:50%; margin-right:16px; vertical-align:-2px }
+  td small { color:var(--muted); font-size:19px }
+  .carte .note { margin-top:30px; color:var(--muted); font-size:21px; line-height:1.5 }
+  .carte .band { position:absolute; left:0; right:0; bottom:0; background:var(--green); color:var(--ivory); padding:34px 90px; display:flex; justify-content:space-between; font-size:26px; font-weight:700 }
+  .carte .band span { color:var(--gold-2); font-weight:600 }
+  .visual img { width:1080px; height:1350px; display:block }
+</style>
+</head>
+<body>
+<div id="doc"></div>
+<script src="../site/data.js"></script>
+<script>
+  const { PRODUCTS, CONTACT, svg, fcfa, logoMark } = AL;
+  const pick = id => PRODUCTS.find(p => p.id === id);
+  document.getElementById("doc").innerHTML = `
+    <section class="page cover">
+      <div class="mark">${logoMark("#c9a24a")}</div>
+      <div class="eyebrow">Catalogue · Ouaga 2000</div>
+      <h1>Aroma-Leaf</h1>
+      <p>Les thés Kericho Gold, cultivés dans les hauts plateaux du Kenya : thé noir, thés verts parfumés et infusions.</p>
+      <div class="discs">${["pure-kenya", "hibiscus", "mint", "spiced"].map(id => `<div style="background:${pick(id).color}">${svg(pick(id).illus)}</div>`).join("")}</div>
+      <div class="contact"><div>${CONTACT.phones.join("  ·  ")}</div><span>Facebook · ${CONTACT.facebook}</span></div>
+    </section>
+    <section class="page carte">
+      <div class="eyebrow">Tarifs</div>
+      <h2>La carte</h2>
+      <table>${PRODUCTS.flatMap(p => p.offers.map((o, i) => `<tr><td>${i === 0 ? `<span class="dot" style="background:${p.color}"></span>${p.short} <small>· ${p.family}</small>` : ""}</td><td>${o.label}</td><td>${fcfa(o.price)}</td></tr>`)).join("")}</table>
+      <p class="note">Prix en francs CFA. Grands formats, commandes en gros (revendeurs, hôtels, bureaux) et coffrets cadeaux : écrivez-nous sur WhatsApp.</p>
+      <div class="band"><div>${CONTACT.phones.join("  ·  ")}</div><span>Ouaga 2000, Ouagadougou</span></div>
+    </section>
+    ${PRODUCTS.map(p => `<section class="page visual"><img src="../visuels/aroma-leaf-${p.id}.png" alt="${p.short}"></section>`).join("")}`;
+</script>
+</body>
+</html>
